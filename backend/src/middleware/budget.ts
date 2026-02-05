@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { body, param, validationResult } from "express-validator";
 import Budget from "../models/Budget";
+import { handleInputErrors } from "./validation";
 
 declare global {
   namespace Express {
@@ -21,7 +22,8 @@ export const validateBudgetId = async (
     .custom((value) => value > 0)
     .withMessage("ID no válido")
     .run(req);
-  next();
+
+  handleInputErrors(req, res, next);
 };
 
 export const validateBudgetExists = async (
