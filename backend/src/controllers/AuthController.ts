@@ -70,7 +70,7 @@ export class AuthController {
     }
 
     const token = generateJWT(user.id);
-    res.json(token);
+    res.status(200).send(token);
   };
 
   static forgotPassword = async (req: Request, res: Response) => {
@@ -123,5 +123,9 @@ export class AuthController {
     await user.save();
 
     res.json("Contraseña restablecida exitosamente");
+  };
+
+  static user = async (req: Request, res: Response) => {
+    res.json(req.user);
   };
 }
