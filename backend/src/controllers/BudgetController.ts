@@ -6,7 +6,7 @@ export class BudgetController {
     try {
       const budgets = await Budget.findAll({
         order: [["createdAt", "DESC"]],
-        // TODO: Filtrar por usuario autenticado
+        where: { userId: req.user.id },
       });
       res.json(budgets);
     } catch (error) {
@@ -18,6 +18,7 @@ export class BudgetController {
   static create = async (req: Request, res: Response) => {
     try {
       const budget = new Budget(req.body);
+      budget.userId = req.user.id;
       await budget.save();
       res.status(201).json("Presupuesto creado exitosamente");
     } catch (error) {

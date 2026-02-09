@@ -70,4 +70,25 @@ router.post(
 
 router.get("/user", authenticate, AuthController.user);
 
+router.post(
+  "/update-password",
+  authenticate,
+  body("current_password")
+    .notEmpty()
+    .withMessage("La contraseña actual es obligatoria"),
+  body("password")
+    .isLength({ min: 8 })
+    .withMessage("La contraseña nueva debe tener al menos 8 caracteres"),
+  handleInputErrors,
+  AuthController.updateCurrentUserPassword,
+);
+
+router.post(
+  "/check-password",
+  authenticate,
+  body("password").notEmpty().withMessage("La contraseña es obligatoria"),
+  handleInputErrors,
+  AuthController.checkPassword,
+);
+
 export default router;
