@@ -4,3 +4,6 @@ package-lock.json
 
 .postman
 postman
+
+coverage/
+dist/

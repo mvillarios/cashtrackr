@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { body, param, validationResult } from "express-validator";
+import { body, param } from "express-validator";
 import Budget from "../models/Budget";
 import { handleInputErrors } from "./validation";
 
@@ -39,7 +39,6 @@ export const validateBudgetExists = async (
       return res.status(404).json({ error: error.message });
     }
     req.budget = budget;
-
     next();
   } catch (error) {
     //console.log(error);
