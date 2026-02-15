@@ -181,10 +181,10 @@ describe("AuthController.login", () => {
     (User.findOne as jest.Mock).mockResolvedValue(userMock);
     (checkPassword as jest.Mock).mockResolvedValue(true);
     (generateJWT as jest.Mock).mockReturnValue(fakejwt);
+
     await AuthController.login(req, res);
 
-    const data = res._getData();
-
+    const data = res._getJSONData();
     expect(res.statusCode).toBe(200);
     expect(data).toEqual(fakejwt);
     expect(generateJWT).toHaveBeenCalledTimes(1);

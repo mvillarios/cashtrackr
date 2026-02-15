@@ -18,7 +18,13 @@ export class AuthController {
     try {
       const user = await User.create(req.body);
       user.password = await hashPassword(password);
-      user.token = generateToken();
+      const token = generateToken();
+      user.token = token;
+
+      if (process.env.NODE_ENV !== "production") {
+        globalThis.cashTrackrConfirmationToken = token;
+      }
+
       await user.save();
 
       await AuthEmail.sendConfirmationEmail({
@@ -38,15 +44,15 @@ export class AuthController {
 
     const user = await User.findOne({ where: { token } });
     if (!user) {
-      const error = new Error("Token no valido");
-      return res.status(400).json({ error: error.message });
+      const error = new Error("Token no válido");
+      return res.status(401).json({ error: error.message });
     }
 
     user.confirmed = true;
     user.token = null;
     await user.save();
 
-    res.json({ message: "Cuenta confirmada exitosamente" });
+    res.json("Cuenta confirmada exitosamente");
   };
 
   static login = async (req: Request, res: Response) => {
@@ -70,7 +76,7 @@ export class AuthController {
     }
 
     const token = generateJWT(user.id);
-    res.status(200).send(token);
+    res.json(token);
   };
 
   static forgotPassword = async (req: Request, res: Response) => {

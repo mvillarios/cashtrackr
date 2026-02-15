@@ -1,7 +1,9 @@
 import { Sequelize } from "sequelize-typescript";
 import dotenv from "dotenv";
 
-dotenv.config();
+dotenv.config({ quiet: true });
+
+const enableSSL = process.env.DB_SSL === "true";
 
 export const db = new Sequelize(process.env.DATABASE_URL, {
   models: [__dirname + "/../models/**/*"],
@@ -9,7 +11,14 @@ export const db = new Sequelize(process.env.DATABASE_URL, {
   define: {
     timestamps: true,
   },
-  dialectOptions: {
-    ssl: { require: false },
-  },
+  ...(enableSSL
+    ? {
+        dialectOptions: {
+          ssl: {
+            require: true,
+            rejectUnauthorized: false,
+          },
+        },
+      }
+    : {}),
 });

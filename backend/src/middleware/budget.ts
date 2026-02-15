@@ -19,8 +19,10 @@ export const validateBudgetId = async (
   await param("budgetId")
     .isInt()
     .withMessage("ID no válido")
+    .bail()
     .custom((value) => value > 0)
     .withMessage("ID no válido")
+    .bail()
     .run(req);
 
   handleInputErrors(req, res, next);
