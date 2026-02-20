@@ -34,4 +34,10 @@ export const UserSchema = z.object({
   email: z.email(),
 });
 
+export const ForgotPasswordSchema = z.object({
+  email: z
+    .email({ message: "Email no válido" })
+    .min(1, { message: "El Email es Obligatorio" }),
+});
+
 export type User = z.infer<typeof UserSchema>;
