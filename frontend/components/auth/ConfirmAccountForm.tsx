@@ -14,7 +14,7 @@ export default function ConfirmAccountForm() {
 
   const confirmAccountWithToken = confirmAccount.bind(null, token);
   const [state, dispatch] = useFormState(confirmAccountWithToken, {
-    errors: [] as string[],
+    errors: [],
     success: "",
   });
 

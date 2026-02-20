@@ -14,6 +14,11 @@ export const RegisterSchema = z
     path: ["password_confirmation"],
   });
 
+export const LoginSchema = z.object({
+  email: z.email("Correo no válido").min(1, "El correo es obligatorio"),
+  password: z.string().min(1, { message: "La contraseña es obligatoria" }),
+});
+
 export const SuccessSchema = z.string();
 export const ErrorResponseSchema = z.object({
   error: z.string(),

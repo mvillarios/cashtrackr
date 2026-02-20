@@ -1,8 +1,25 @@
 "use client";
+import { authenticate } from "@/actions/authenticate-user-action";
+import { useEffect } from "react";
+import { useFormState } from "react-dom";
+import { toast } from "react-toastify";
+
 export default function LoginForm() {
+  const [state, dispatch] = useFormState(authenticate, {
+    errors: [],
+  });
+
+  useEffect(() => {
+    if (state.errors) {
+      state.errors.forEach((error) => {
+        toast.error(error);
+      });
+    }
+  }, [state]);
+
   return (
     <>
-      <form className="mt-14 space-y-5" noValidate>
+      <form className="mt-14 space-y-5" noValidate action={dispatch}>
         <div className="flex flex-col gap-2">
           <label className="font-bold text-2xl">Email</label>
 
