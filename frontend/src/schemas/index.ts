@@ -19,11 +19,19 @@ export const LoginSchema = z.object({
   password: z.string().min(1, { message: "La contraseña es obligatoria" }),
 });
 
+export const TokenSchema = z
+  .string("Token no válido")
+  .length(6, "Token no válido");
+
 export const SuccessSchema = z.string();
 export const ErrorResponseSchema = z.object({
   error: z.string(),
 });
 
-export const TokenSchema = z
-  .string("Token no válido")
-  .length(6, "Token no válido");
+export const UserSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  email: z.email(),
+});
+
+export type User = z.infer<typeof UserSchema>;
