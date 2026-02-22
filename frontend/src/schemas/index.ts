@@ -40,4 +40,16 @@ export const ForgotPasswordSchema = z.object({
     .min(1, { message: "El Email es Obligatorio" }),
 });
 
+export const ResetPasswordSchema = z
+  .object({
+    password: z
+      .string()
+      .min(8, { message: "La constraseña es muy corta, mínimo 8 caracteres" }),
+    password_confirmation: z.string(),
+  })
+  .refine((data) => data.password === data.password_confirmation, {
+    message: "Las constraseñas no son iguales",
+    path: ["password_confirmation"],
+  });
+
 export type User = z.infer<typeof UserSchema>;
