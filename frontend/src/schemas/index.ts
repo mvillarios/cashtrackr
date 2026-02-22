@@ -23,17 +23,6 @@ export const TokenSchema = z
   .string("Token no válido")
   .length(6, "Token no válido");
 
-export const SuccessSchema = z.string();
-export const ErrorResponseSchema = z.object({
-  error: z.string(),
-});
-
-export const UserSchema = z.object({
-  id: z.number(),
-  name: z.string(),
-  email: z.email(),
-});
-
 export const ForgotPasswordSchema = z.object({
   email: z
     .email({ message: "Email no válido" })
@@ -61,4 +50,26 @@ export const DraftBudgetSchema = z.object({
     .min(1, { message: "Cantidad no válida" }),
 });
 
+export const SuccessSchema = z.string();
+export const ErrorResponseSchema = z.object({
+  error: z.string(),
+});
+
+export const UserSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  email: z.email(),
+});
+
+export const BudgetAPIResponseSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  amount: z.string(),
+  userId: z.number(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+});
+export const BudgetsAPIResponseSchema = z.array(BudgetAPIResponseSchema);
+
 export type User = z.infer<typeof UserSchema>;
+export type Budget = z.infer<typeof BudgetAPIResponseSchema>;
