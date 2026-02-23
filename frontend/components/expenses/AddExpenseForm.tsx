@@ -23,10 +23,9 @@ export default function AddExpenseForm({
   useEffect(() => {
     if (state.success) {
       toast.success(state.success);
-      console.log("Expense created successfully:");
       closeModal();
     }
-  });
+  }, [state]);
 
   return (
     <>

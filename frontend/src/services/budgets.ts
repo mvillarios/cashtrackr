@@ -10,6 +10,9 @@ export const getBudget = cache(async (budgetId: string) => {
     headers: {
       Authorization: `Bearer ${token}`,
     },
+    next: {
+      tags: ["budget"],
+    },
   });
 
   if (!req.ok) {

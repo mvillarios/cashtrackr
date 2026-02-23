@@ -26,8 +26,8 @@ export default function ModalContainer() {
   const show = Boolean(showModal);
 
   const addExpense = searchParams.get("addExpense");
-  const editExpense = searchParams.get("editExpense");
-  const deleteExpense = searchParams.get("deleteExpense");
+  const editExpense = searchParams.get("editExpenseId");
+  const deleteExpense = searchParams.get("deleteExpenseId");
 
   const getComponentName = () => {
     if (addExpense) return "AddExpense";
@@ -40,11 +40,19 @@ export default function ModalContainer() {
   const ComponentToRender = componentName ? componentsMap[componentName] : null;
 
   const closeModal = () => {
-    const hideModal = new URLSearchParams(searchParams.toString());
-    Array.from(hideModal.entries()).forEach(([key]) => {
-      hideModal.delete(key);
-    });
-    router.replace(`${pathname}?${hideModal}`);
+    // Paso 1: Solo establecer showModal en false (inicia la animación)
+    const newParams = new URLSearchParams(searchParams.toString());
+    newParams.delete("showModal");
+    router.replace(`${pathname}?${newParams}`);
+
+    // Paso 2: Esperar a que termine la animación (200ms) antes de limpiar el resto
+    setTimeout(() => {
+      const finalParams = new URLSearchParams(searchParams.toString());
+      Array.from(finalParams.entries()).forEach(([key]) => {
+        finalParams.delete(key);
+      });
+      router.replace(`${pathname}?${finalParams}`);
+    }, 200); // Coincide con duration-200 del leave
   };
 
   return (

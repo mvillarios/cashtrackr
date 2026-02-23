@@ -6,6 +6,7 @@ import {
   ErrorResponseSchema,
   SuccessSchema,
 } from "@/src/schemas";
+import { revalidateTag } from "next/cache";
 
 type ActionStateType = {
   errors: string[];
@@ -54,6 +55,8 @@ export default async function createExpense(
       success: "",
     };
   }
+
+  revalidateTag("budget");
 
   const success = SuccessSchema.parse(json);
   return {
