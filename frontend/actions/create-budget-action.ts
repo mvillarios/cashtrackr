@@ -5,6 +5,7 @@ import {
   DraftBudgetSchema,
   SuccessSchema,
 } from "@/src/schemas";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 type ActionStateType = {
   errors: string[];
@@ -50,6 +51,7 @@ export async function createBudget(
     };
   }
 
+  revalidateTag("all-budgets");
   const success = SuccessSchema.parse(json);
   return {
     errors: [],

@@ -55,6 +55,10 @@ export const ErrorResponseSchema = z.object({
   error: z.string(),
 });
 
+export const PasswordValidationSchema = z.string().min(1, {
+  message: "La contraseña es obligatoria",
+});
+
 export const UserSchema = z.object({
   id: z.number(),
   name: z.string(),
