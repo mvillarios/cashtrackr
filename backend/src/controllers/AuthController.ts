@@ -172,4 +172,24 @@ export class AuthController {
 
     res.json("Contraseña correcta");
   };
+
+  static updateUser = async (req: Request, res: Response) => {
+    const { id } = req.user;
+    const { name, email } = req.body;
+
+    try {
+      const userExists = await User.findOne({ where: { email } });
+      if (userExists && userExists.id !== id) {
+        const error = new Error("El Usuario ya existe");
+        return res.status(409).json({ error: error.message });
+      }
+
+      await User.update({ name, email }, { where: { id } });
+
+      res.json("Usuario actualizado exitosamente");
+    } catch (error) {
+      //console.log(error);
+      res.status(500).json({ error: "Error al actualizar el usuario" });
+    }
+  };
 }

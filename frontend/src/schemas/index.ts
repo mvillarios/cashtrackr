@@ -66,6 +66,28 @@ export const DraftExpenseSchema = z.object({
     .min(1, { message: "Cantidad no válida" }),
 });
 
+export const UpdatePasswordSchema = z
+  .object({
+    current_password: z
+      .string()
+      .min(1, { message: "La contraseña es obligatoria" }),
+    password: z.string().min(8, {
+      message: "La nueva constraseña es muy corta, mínimo 8 caracteres",
+    }),
+    password_confirmation: z.string(),
+  })
+  .refine((data) => data.password === data.password_confirmation, {
+    message: "Las constraseñas no son iguales",
+    path: ["password_confirmation"],
+  });
+
+export const ProfileFormSchema = z.object({
+  name: z.string().min(1, { message: "Tu Nombre no puede ir vacio" }),
+  email: z
+    .email({ message: "Email no válido" })
+    .min(1, { message: "El Email es Obligatorio" }),
+});
+
 export const UserSchema = z.object({
   id: z.number(),
   name: z.string(),
